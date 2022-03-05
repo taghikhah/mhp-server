@@ -1,34 +1,30 @@
 {
-  "name": "vidly",
+  "name": "mhp-wincent",
   "version": "1.0.0",
-  "description": "",
+  "description": "Wincent Data Integration | MHP",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "seed": "node seed.js",
-    "test": "jest --watchAll --verbose"
+    "start": "node index.js"
+  },
+  "engines": {
+    "node": "14.16.1"
   },
   "keywords": [],
-  "author": "",
+  "author": "wincent",
   "license": "ISC",
   "dependencies": {
-    "bcrypt": "^1.0.3",
+    "archiver": "^5.3.0",
+    "axios": "^0.26.0",
     "config": "^1.29.4",
     "cors": "^2.8.4",
     "express": "^4.16.2",
-    "express-async-errors": "^2.1.0",
-    "fawn": "^2.1.5",
+    "fs": "^0.0.1-security",
+    "http": "^0.0.1-security",
     "joi": "^13.4.0",
     "joi-objectid": "^2.0.0",
-    "jsonwebtoken": "^8.1.1",
+    "kafkajs": "^1.16.0",
     "lodash": "^4.17.10",
-    "moment": "^2.20.1",
     "mongoose": "^5.0.2",
-    "winston": "^2.4.0",
-    "winston-mongodb": "^3.0.0"
-  },
-  "devDependencies": {
-    "jest": "^22.2.2",
-    "supertest": "^3.0.0"
+    "ws": "^8.5.0"
   }
 }

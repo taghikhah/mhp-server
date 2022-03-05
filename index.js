@@ -1,18 +1,37 @@
-const winston = require("winston");
 const express = require("express");
 const config = require("config");
 const app = express();
 
-require("./startup/logging")();
+// Set the base URL
+global.__basedir = __dirname;
+
 require("./startup/cors")(app);
 require("./startup/routes")(app);
 require("./startup/db")();
 require("./startup/config")();
-require("./startup/validation")();
+
+const consumers = require("./routes/consumers");
+// start the consumer
+consumers().catch((err) => {
+  console.error("error in consumer: ", err);
+});
+
+const producers = require("./routes/producers");
+// call the `produce` function
+// producers().catch((err) => {
+//   console.error("error in producer: ", err);
+// });
+
+// const assignDataValue = require("./routes/metadata");
+const { updateMetadata } = require("./routes/metadata");
+// updateMetadata();
+
+// const { fileManager } = require("./routes/fileManager");
+// fileManager();
 
 const port = process.env.PORT || config.get("port");
 const server = app.listen(port, () =>
-  winston.info(`Listening on port ${port}...`)
+  console.log(`Listening on port ${port}...`)
 );
 
 module.exports = server;
