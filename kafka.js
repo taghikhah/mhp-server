@@ -12,7 +12,7 @@ async function sendKafka() {
   try {
     await mongoose.connect(config.get("db"));
     const message = {
-      blFileIdentifer: "b569f132-8434-4f80-96c5-234d9f8b1069",
+      blFileIdentifer: "f1b4a809-266a-418c-aed9-9abcea60abf4",
     };
     console.log(`Message recieved!`);
 
