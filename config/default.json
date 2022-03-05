@@ -1,4 +1,5 @@
 {
+  "jwtPrivateKey": "unsecureKey",
   "db": "mongodb://localhost/mhp",
   "port": "3500",
   "requiresAuth": false,
