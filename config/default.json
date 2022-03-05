@@ -1,7 +1,7 @@
 {
   "jwtPrivateKey": "unsecureKey",
   "db": "mongodb://localhost/mhp",
-  "port": "3500",
+  "port": "3400",
   "requiresAuth": false,
   "baseUrl": "325khd2o7k.execute-api.eu-west-1.amazonaws.com",
   "apiKey": "L2YhrYWjNYtGaSsHQL4EvQwgUFGcsT3nXyDeX6dFAzStRjQrzXdCDc99b8paZCmz8KYzTKMvAs3KgBtnhE4D8LgGpUt9t8SGf27wmEpqwhUCN5YfzjNR2Y3aBcSehBGt",

@@ -12,7 +12,7 @@ async function sendKafka() {
   try {
     await mongoose.connect(config.get("db"));
     const message = {
-      blFileIdentifer: "f1b4a809-266a-418c-aed9-9abcea60abf4",
+      blFileIdentifer: "b569f132-8434-4f80-96c5-234d9f8b1069",
     };
     console.log(`Message recieved!`);
 
@@ -25,7 +25,7 @@ async function sendKafka() {
 
     const result = await db_message.save();
     console.log(
-      `Message ${result.value.blFileIdentifer} saved to the Database!`
+      `[MESSAGE] ${result.value.blFileIdentifer} saved to the Database!`
     );
 
     if (result) {
@@ -33,7 +33,7 @@ async function sendKafka() {
       getMetaData(result.value.blFileIdentifer);
     }
 
-    console.info("Done!");
+    // console.info("Fake Kafka Generator Successfully Sent!");
   } catch (err) {
     console.error("Could not send Message " + err);
   }

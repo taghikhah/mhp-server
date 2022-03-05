@@ -42,12 +42,14 @@ function fileDownloader(blFileIdentifier, referenzItems) {
           "x-api-key": config.apiKey,
         },
         responseType: "blob",
-      }).then((response) => {
-        fs.writeFileSync(
-          `./downloads/${blFileIdentifier}/${referenzierteData.filename}`,
-          response.data
-        );
-      });
+      })
+        .then((response) => {
+          fs.writeFileSync(
+            `./downloads/${blFileIdentifier}/${referenzierteData.filename}`,
+            response.data
+          );
+        })
+        .catch((err) => console.log(err.message));
       i++;
     }
   }

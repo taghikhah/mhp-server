@@ -18,7 +18,7 @@ function getMetaData(blFileIdentifier) {
       },
     })
     .then((res) => {
-      console.log(`statusCode: ${res.status}`);
+      // console.log(`statusCode: ${res.status}`);
       // console.log(res.data);
       saveMetadata(res, blFileIdentifier);
     })
@@ -64,14 +64,19 @@ function getFile(path, name, response, timeout = 10000) {
   const intervalObj = setInterval(function () {
     const count = getAllDirFiles(path);
 
+    console.log(
+      `${count - 1} from total ${response} files has been downloaded!`
+    );
     if (count > response) {
       clearInterval(intervalObj);
       zipDirectory(
         `${__basedir}/downloads/${name}`,
         `${__basedir}/uploads/${name}.zip`
-      ).then(() => {
-        uploadFile(`${__basedir}/uploads/${name}.zip`, `${name}.zip`);
-      });
+      )
+        .then(() => {
+          uploadFile(`${__basedir}/uploads/${name}.zip`, `${name}.zip`);
+        })
+        .catch((err) => console.log(err.message));
     }
   }, timeout);
 }

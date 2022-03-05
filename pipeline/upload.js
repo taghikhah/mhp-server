@@ -10,14 +10,14 @@ const s3 = new AWS.S3({
 
 const uploadFile = (fileDir, fileName) => {
   // Read content from the file
-  const fileContent = fs.readFileSync(fileDir);
-  // const readStream = fs.createReadStream(fileDir);
+  // const fileContent = fs.readFileSync(fileDir);
+  const readStream = fs.createReadStream(fileDir);
 
   // Setting up S3 upload parameters
   const params = {
     Bucket: "wincent-server",
     Key: fileName,
-    Body: fileContent,
+    Body: readStream,
   };
 
   // Uploading files to the bucket
