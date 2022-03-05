@@ -11,7 +11,7 @@ require("./startup/db")();
 require("./startup/config")();
 
 const { sendKafka } = require("./kafka");
-sendKafka();
+// sendKafka();
 
 const consumers = require("./pipeline/consumers");
 // start the consumer

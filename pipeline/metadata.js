@@ -3,6 +3,7 @@ const config = require("config");
 const { Meta } = require("../models/metadata");
 const { fileDownloader } = require("./files");
 const { uploadFile } = require("./upload");
+const fs = require("fs");
 
 function blFileUrl(blFileIdentifier) {
   return `https://${config.baseUrl}/${config.nutzDatenInformation}/${blFileIdentifier}`;
@@ -25,6 +26,20 @@ function getMetaData(blFileIdentifier) {
     });
 }
 
+function getFile(path, timeout = 60000) {
+  const intervalObj = setInterval(function () {
+    const file = path;
+    const fileExists = fs.existsSync(file);
+
+    console.log("Checking for: ", file);
+
+    if (fileExists) {
+      clearInterval(intervalObj);
+      uploadFile(path, path.split("\\").pop().split("/").pop());
+    }
+  }, timeout);
+}
+
 async function saveMetadata(res, blFileIdentifier) {
   const db_metadata = new Meta({
     data: res.data,
@@ -35,14 +50,12 @@ async function saveMetadata(res, blFileIdentifier) {
   if (result) {
     console.log(`Metadat ${result.data.artefaktTyp} saved to the Database!`);
     // Download Files
-    fileDownloader(blFileIdentifier, result.data.referenzItems).then(
-      (response) => {
-        console.log(response);
-      }
-    );
-
-    // Upload Files to S3
-    // uploadFile(response.path, response.name);
+    fileDownloader(blFileIdentifier, result.data.referenzItems, () => {
+      getFile(
+        `${__basedir}/uploads/${blFileIdentifier}.zip`,
+        (timeout = 60000)
+      );
+    });
   }
 }
 

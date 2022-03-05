@@ -2,6 +2,7 @@ const fs = require("fs");
 const archiver = require("archiver");
 const axios = require("axios");
 const config = require("config");
+const { uploadFile } = require("./upload");
 
 function blFileBase(blFileIdentifier) {
   return `https://${config.baseUrl}/${config.baseLine}/${blFileIdentifier}`;
@@ -10,15 +11,6 @@ function blFileBase(blFileIdentifier) {
 function blFileFrame(blFileIdentifier, fileType, fileIdentifier) {
   return `https://${config.baseUrl}/${config.nutzDaten}/${blFileIdentifier}/${fileType}/${fileIdentifier}`;
 }
-
-// function delay(i) {
-//   return new Promise((resolve) => setTimeout(resolve, i * 250));
-// }
-
-// async function delayedUpload(i, filePath, fileName) {
-//   await delay(i);
-//   uploadFile(filePath, fileName);
-// }
 
 function zipDirectory(sourceDir, outPath) {
   var output = fs.createWriteStream(outPath);
@@ -30,15 +22,16 @@ function zipDirectory(sourceDir, outPath) {
       .on("error", (err) => reject(err))
       .pipe(output);
     // console.log(archive.pointer() + " Total bytes");
-    output.on("close", () => resolve());
+    output.on("close", () =>
+      resolve(console.log(archive.pointer() + " Total bytes"))
+    );
     archive.finalize();
   });
 }
 
-async function fileDownloader(blFileIdentifier, referenzItems) {
+function fileDownloader(blFileIdentifier, referenzItems, callback) {
   // Store baseline
   fs.mkdirSync(`./downloads/${blFileIdentifier}`, { recursive: true });
-
   axios({
     url: blFileBase(blFileIdentifier),
     method: "GET",
@@ -54,7 +47,6 @@ async function fileDownloader(blFileIdentifier, referenzItems) {
   });
 
   // Store other files
-  let i = 0;
   for (const referenzItem of referenzItems) {
     for (const referenzierteData of referenzItem.referenzierteDaten) {
       axios({
@@ -81,21 +73,12 @@ async function fileDownloader(blFileIdentifier, referenzItems) {
             `${__basedir}/uploads/${blFileIdentifier}.zip`
           );
         });
-      i++;
     }
-
-    return {
-      path: `${__basedir}/uploads/${blFileIdentifier}`,
-      name: `${blFileIdentifier}.zip`,
-    };
   }
 
+  callback();
+
   // uploadFile(`${__basedir}/uploads/${blFileIdentifier}.zip`, blFileIdentifier);
-  // await delayedUpload(
-  //   i,
-  //   `${__basedir}/uploads/${blFileIdentifier}.zip`,
-  //   `${blFileIdentifier}.zip`
-  // );
 }
 
 exports.fileDownloader = fileDownloader;
