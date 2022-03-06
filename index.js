@@ -16,6 +16,17 @@ require("./startup/config")();
 const { sendKafka } = require("./kafka");
 // sendKafka();
 
+var time = 1;
+
+var interval = setInterval(function () {
+  if (time <= 20) {
+    sendKafka();
+    time++;
+  } else {
+    clearInterval(interval);
+  }
+}, 10000);
+
 const consumers = require("./pipeline/consumers");
 // start the consumer
 // consumers().catch((err) => {
