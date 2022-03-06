@@ -1,5 +1,6 @@
 const AWS = require("aws-sdk");
 const fs = require("fs");
+const { Files } = require("../models/file");
 
 const s3 = new AWS.S3({
   apiVersion: "2006-03-01",
@@ -25,7 +26,21 @@ const uploadFile = (fileDir, fileName) => {
     if (err) {
       throw err;
     }
-    console.log(`File uploaded successfully. ${data.Location}`);
+    // console.log(`[INFO] File uploaded successfully. ${data.Location}`);
+    console.log(`[INFO] ${fileName} uploaded successfully!`);
+
+    // Save File to the Database
+    const db_file = new Files({
+      name: fileName,
+      path: fileDir,
+      destination: data.Location,
+    });
+
+    const result = db_file.save();
+
+    if (result) {
+      console.log(`[FILE] ${fileName} metadata saved!`);
+    }
   });
 };
 

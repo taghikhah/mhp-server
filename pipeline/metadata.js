@@ -54,7 +54,9 @@ function zipDirectory(sourceDir, outPath) {
       .pipe(output);
     // console.log(archive.pointer() + " Total bytes");
     output.on("close", () =>
-      resolve(console.log(archive.pointer() + " Total bytes to upload"))
+      resolve(
+        console.log(`[INFO] Total ${archive.pointer()} Bytes to upload."`)
+      )
     );
     archive.finalize();
   });
@@ -65,7 +67,7 @@ function getFile(path, name, response, timeout = 10000) {
     const count = getAllDirFiles(path);
 
     console.log(
-      `${count - 1} from total ${response} files has been downloaded!`
+      `[STATUS] ${count - 1} from total ${response} files has been downloaded!`
     );
     if (count > response) {
       clearInterval(intervalObj);
@@ -89,7 +91,7 @@ async function saveMetadata(res, blFileIdentifier) {
   const result = await db_metadata.save();
 
   if (result) {
-    console.log(`Metadat ${result.data.artefaktTyp} saved to the Database!`);
+    console.log(`[PAYLOAD] ${result.data.artefaktTyp} metadata saved!`);
     // Download Files
     const response = fileDownloader(
       blFileIdentifier,
@@ -104,14 +106,4 @@ async function saveMetadata(res, blFileIdentifier) {
   }
 }
 
-// async function updateMetadata() {
-//   const messages = await Message.find().select("-__v").sort("created_at");
-
-//   for (let index = 0; index < messages.length; index++) {
-//     const mssg = messages[index];
-//     getMetaData(mssg.value["blFileIdentifer"]);
-//   }
-// }
-
-// exports.updateMetadata = updateMetadata;
 exports.getMetaData = getMetaData;

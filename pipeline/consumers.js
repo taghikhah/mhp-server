@@ -63,7 +63,7 @@ const consumers = async () => {
         // Save Metadata to the Database
         getMetaData(result.value.blFileIdentifer);
         console.log(
-          `Message ${result.value.blFileIdentifer} saved to the Database!`
+          `[MESSAGE] ${result.value.blFileIdentifer} metadata saved to the Database!`
         );
       }
     },

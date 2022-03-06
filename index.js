@@ -10,8 +10,11 @@ require("./startup/routes")(app);
 require("./startup/db")();
 require("./startup/config")();
 
+// const wsServer = require("./startup/socket");
+// wsServer;
+
 const { sendKafka } = require("./kafka");
-sendKafka();
+// sendKafka();
 
 const consumers = require("./pipeline/consumers");
 // start the consumer
@@ -24,12 +27,6 @@ const producers = require("./pipeline/producers");
 // producers().catch((err) => {
 //   console.error("error in producer: ", err);
 // });
-
-const { updateMetadata } = require("./pipeline/metadata");
-// updateMetadata();
-
-// const { fileManager } = require("./pipeline/files");
-// fileManager();
 
 const port = process.env.PORT || config.get("port");
 const server = app.listen(port, () =>

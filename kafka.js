@@ -14,7 +14,6 @@ async function sendKafka() {
     const message = {
       blFileIdentifer: "b569f132-8434-4f80-96c5-234d9f8b1069",
     };
-    console.log(`Message recieved!`);
 
     // Save Messages to the Database
     const db_message = new Message({
@@ -24,9 +23,7 @@ async function sendKafka() {
     });
 
     const result = await db_message.save();
-    console.log(
-      `[MESSAGE] ${result.value.blFileIdentifer} saved to the Database!`
-    );
+    console.log(`[MESSAGE] ${result.value.blFileIdentifer} metadata saved!`);
 
     if (result) {
       // Save Metadata to the Database
@@ -40,34 +37,3 @@ async function sendKafka() {
 }
 
 exports.sendKafka = sendKafka;
-
-/*
-
-    let i = 1;
-    setInterval(async () => {
-      try {
-        console.log(`Message: ${i} recieved!`);
-
-        // Save Messages to the Database
-        const db_message = new Message({
-          partition: 0,
-          topic: "mhp",
-          value: message,
-        });
-
-        const result = await db_message.save();
-
-        if (result) {
-          // Save Metadata to the Database
-          getMetadata(result.value.blFileIdentifer);
-          console.log(
-            `Message ${result.value.blFileIdentifer} saved to the Database!`
-          );
-        }
-
-        i--;
-      } catch (err) {
-        console.error("Could not send Message " + err);
-      }
-    }, 1000);
-    */
